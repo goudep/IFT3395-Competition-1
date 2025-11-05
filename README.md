@@ -1,6 +1,6 @@
 # Rapport de Projet 1 : Prédiction de la Qualité de la Bière
 
-**Auteurs**: [Votre Nom] et [Nom du Coéquipier]
+**Auteurs**: Yudi Ma et 
 **Cours**: IFT-6390 / IFT-3395
 **Date**: 5 novembre 2025
 
