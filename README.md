@@ -95,15 +95,15 @@ Nous avons soumis les 3 prédictions CSV à Kaggle, car le score Kaggle est le j
 
 ### Résultats de la Phase 2 : Modèle Final (Code Final)
 
-Après avoir appliqué le `RandomOverSampler` et le réglage approfondi, le `Random Forest` a clairement gagné.
+Après avoir appliqué le `RandomOverSampler` et le réglage approfondi, le `Random Forest` (combiné avec les caractéristiques polynomiales, v8) a clairement gagné.
 
 **Tableau 2 : Scores du Modèle Final (Validation Croisée Locale)**
 | Modèle | Meilleurs Paramètres (via GridSearchCV) | Accuracy (Validation Croisée Locale) |
 | :--- | :--- | :--- |
-| **Random Forest** | `{'max_depth': 20, 'n_estimators': 300, 'min_samples_leaf': 1}` | **0.6387** |
-| XGBoost | `{'learning_rate': 0.1, 'max_depth': 7, 'n_estimators': 400}` | 0.6120 |
+| **Random Forest (avec Caract. Poly.)** | `{'max_depth': 20, 'n_estimators': 300, 'min_samples_leaf': 1}` | **0.6482** |
+| XGBoost (Testé en v7) | `{'learning_rate': 0.1, 'max_depth': 7, 'n_estimators': 400}` | 0.6120 |
 
-**Score Final Kaggle (Random Forest): `0.37647`**
+**Score Final Kaggle (Random Forest + Poly): `[...Remplir avec votre meilleur score Kaggle final, ex: 0.37+]`**
 
 ---
 
@@ -111,19 +111,18 @@ Après avoir appliqué le `RandomOverSampler` et le réglage approfondi, le `Ran
 
 ### 5.1 Nos Réalisations
 
-Notre score final de **0.37647** avec `Random Forest` (combiné avec `RandomOverSampler` et un réglage approfondi) est une amélioration très nette par rapport à notre modèle de baseline (`0.33+`). Cela prouve que notre stratégie d'amélioration (résoudre le déséquilibre + utiliser un modèle plus puissant) a été un **succès total**.
+Notre score final (ex: `0.37+`) avec le modèle `Random Forest` combiné aux caractéristiques polynomiales et au suréchantillonnage est une amélioration très nette par rapport à notre modèle de baseline (`0.33+`). Cela prouve que notre stratégie d'amélioration (résoudre le déséquilibre + ingénierie de caractéristiques + utiliser un modèle plus puissant) a été un **succès total**.
 
-Un grand avantage du `Random Forest` est qu'il gère bien les données de grande dimension (créées par le `OneHotEncoder`) et qu'il est moins sujet au surapprentissage.
-
-### 5.2 Limitations et Leçons Apprises 
+### 5.2 Limitations et Leçons Apprises (Le plus important)
 
 La plus grande leçon de ce projet vient de ses limitations :
 
-1.  **Accuracy Locale vs. Score Kaggle (La plus grande leçon)**
-    Nous avons constaté que notre score local (ex: **0.64**) n'avait **aucun lien** avec notre score Kaggle (ex: **0.37**). Cela prouve que Kaggle **n'utilise pas** "l'Accuracy" pour noter. L'Accuracy considère qu'une erreur 6->7 (petite erreur) est aussi grave qu'une erreur 3->8 (grosse erreur). Kaggle utilise probablement une métrique plus avancée (comme le Quadratic Weighted Kappa) qui **pénalise lourdement** les prédictions "très fausses". Si nous avions su cela plus tôt, nous aurions peut-être choisi des modèles de régression plutôt que de classification.
+1.  **Le Suréchantillonnage (Upsampling) n'est pas Magique**:
+    En regardant le rapport de classification final (image `image_603364.png`), nous avons vu que **même après avoir utilisé `RandomOverSampler`, le `recall` (rappel) pour les classes rares (comme 3, 4, 8, 9) est toujours de 0.00 !**
+    * **Pourquoi ?** Le problème n'est pas seulement le déséquilibre, c'est que ces classes ont **trop peu** d'échantillons (parfois 1 ou 2). `RandomOverSampler` ne fait que "copier" ces 2 échantillons. Le `Random Forest` est assez "intelligent" pour réaliser que ce ne sont que des copies et qu'il n'y a aucun avantage à les prédire pour améliorer l'accuracy globale. Il **apprend donc à les ignorer**.
 
-2.  **Problème de Déséquilibre des Données**
-    `RandomOverSampler` nous a aidés à améliorer le score, mais il ne fait que "copier" les données, ce qui peut entraîner du surapprentissage. Dans notre rapport d'évaluation final, nous voyons que le `recall` (rappel) pour les classes 3 et 9 est **toujours très faible**. Cela signifie que même en copiant les échantillons, le modèle a toujours du mal à apprendre leurs caractéristiques. C'est le plus grand défi de ce jeu de données.
+2.  **Accuracy Locale vs. Score Kaggle (La plus grande leçon)**
+    Nous avons confirmé que notre score local le plus élevé (ex: **0.65**) n'a **aucune corrélation** avec notre score Kaggle (ex: **0.37**). Cela prouve que Kaggle **n'utilise pas** "l'Accuracy" pour noter. L'Accuracy traite une erreur 6->7 (petite erreur) de la même manière qu'une erreur 3->8 (grosse erreur). Kaggle utilise très probablement une métrique plus avancée (comme le Quadratic Weighted Kappa) qui **pénalise sévèrement** les prédictions "très fausses". Si nous avions optimisé notre `GridSearchCV` pour cette métrique (QWK) au lieu de l'Accuracy, nous aurions sûrement obtenu un bien meilleur score.
 
 3.  **Messages d'Avertissement (Warnings)**
-    Pendant l'entraînement, nous avons reçu des `UserWarning` nous indiquant que certaines classes (comme la qualité 9) n'avaient qu'un seul échantillon, ce qui rendait même une validation croisée à 3 "folds" (`cv=3`) difficile. Nous avons géré ce problème en gardant `cv=3` (au lieu de 5 ou 10), mais cela confirme la gravité du déséquilibre des données.# IFT3395-Competition-1
+    Pendant l'entraînement, nous avons reçu des `UserWarning` nous indiquant que certaines classes n'avaient qu'un seul membre, ce qui rendait même une validation croisée à 3 "folds" (`cv=3`) difficile. Cela confirme la gravité du problème de déséquilibre des données.
