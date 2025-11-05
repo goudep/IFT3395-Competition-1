@@ -117,7 +117,7 @@ Notre score final de **0.37647** avec le modèle `Random Forest` (combiné avec 
 
 Notre modèle final a atteint une précision de **0.6555** sur notre ensemble de validation local.
 
-### 5.2 Limitations et Leçons Apprises (Le plus important)
+### 5.2 Limitations et Leçons Apprises
 
 La plus grande leçon de ce projet vient de ses limitations :
 
