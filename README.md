@@ -87,9 +87,9 @@ Nous avons soumis les 3 prédictions CSV à Kaggle, car le score Kaggle est le j
 **Tableau 1 : Scores des Modèles du Checkpoint**
 | Modèle | Accuracy (Validation Locale) | Score Public Kaggle | Dépasse le Baseline (0.29019) ? |
 | :--- | :--- | :--- | :--- |
-| **Régression Polynomiale (Degré 2)** | **0.6174** | **0.33+** | **Oui (Notre Choix)** |
-| k-NN (k=15) | 0.5817 | `[...Remplir score kNN...]` | Oui / Non |
-| Gaussian Naive Bayes | 0.1566 | `[...Remplir score Bayes...]` | Non |
+| **Régression Polynomiale (Degré 2)** | **0.5772** | **0.34509** | **Oui (Notre Choix)** |
+| k-NN (k=15) | 0.5421| 0.29019 |  Non |
+| Gaussian Naive Bayes | 0.1566 | NA | Non |
 
 *Analyse (Phase 1)* : La Régression Polynomiale a facilement battu le baseline. Cela a prouvé que notre prétraitement était efficace et que les interactions de caractéristiques étaient la clé du problème.
 
