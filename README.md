@@ -115,7 +115,7 @@ Notre score final de **0.37647** avec `Random Forest` (combiné avec `RandomOver
 
 Un grand avantage du `Random Forest` est qu'il gère bien les données de grande dimension (créées par le `OneHotEncoder`) et qu'il est moins sujet au surapprentissage.
 
-### 5.2 Limitations et Leçons Apprises (Le plus important)
+### 5.2 Limitations et Leçons Apprises 
 
 La plus grande leçon de ce projet vient de ses limitations :
 
