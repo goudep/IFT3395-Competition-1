@@ -39,7 +39,7 @@
 
 **Caractéristiques sélectionnées (Phase 1)**:
 - Pour la Phase 1 (baseline), nous avons utilisé **toutes les caractéristiques disponibles** après nettoyage.
-- **Caractéristiques Numériques**: `[...Veuillez compléter ici la liste de vos caractéristiques numériques, ex: alcohol_ABV, free_CO2, etc...]`
+- **Caractéristiques Numériques**: `alcohol_ABV`, `fermentation_strength`, `bitterness_IBU`, `diacetyl_concentration`, `lactic_acid`, `final_gravity`, `sodium`, `free_CO2`, `dissolved_oxygen`, `original_gravity`, `pH`, `gypsum_level`
 - **Caractéristique Catégiorielle**: `beer_style`
 
 ### 3.2 Phase 2: Améliorations
@@ -48,7 +48,7 @@
 - On a aussi observé une grande asymétrie dans la répartition des valeurs de certaines caractéristiques. **Solution**: PowerTransformer (Yeo-Johnson), une transformation qui rapproche la répartition des données d'une gaussienne et réduit l'effet des valeurs biaisées.
 - Nous avons 15 caractéristiques ; certaines peuvent ne pas être représentatives ou être inutiles lors de la classification et peuvent nuire aux performances. **Solution**: Sélection des **n** meilleures caractéristiques via RandomForest.
 - **Résultat de la sélection**: Le RandomForest a identifié les **10 meilleures caractéristiques** suivantes, qui ont été utilisées pour tous les modèles de la Phase 2 :
-  `[...Veuillez lister vos 10 caractéristiques ici...]`
+`alcohol_ABV`, `fermentation_strength`, `lactic_acid`, `gypsum_level`, `free_CO2`, `pH`, `final_gravity`, `dissolved_oxygen`, `bitterness_IBU`, `original_gravity`
 
 ---
 
